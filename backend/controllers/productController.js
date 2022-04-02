@@ -23,7 +23,7 @@ res.status(200).json({
 exports.getSingleProduct = async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
-        return next(new ErrorHandler(404, 'Product not found'));
+        return next(new ErrorHandler('Product not found', 404));
     }
     res.status(200).json({
         success: true,
