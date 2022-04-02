@@ -21,17 +21,18 @@ res.status(200).json({
 };
 
 
-// get a single product => /api/v1/products/:id
-exports.getSingleProduct = catchAsyncErrors (async (req, res, next) => {
+// Get single product details   =>   /api/v1/product/:id
+exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
     }
     res.status(200).json({
         success: true,
-        product,
-    });
-});
+        product
+    })
+
+})
 
 
 // Update a product => /api/v1/admin/products/:id
