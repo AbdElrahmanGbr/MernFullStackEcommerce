@@ -16,5 +16,3 @@ const connectDatabase = () => {
     });
 };
 module.exports = connectDatabase;
-// npm i bcryptjs body-parser cloudinary cookie-parser dotenv express express-fileupload jsonwebtoken mongoose nodemailer stripe validator
-//DB_LOCAL_URI = mongodb+srv://AbdelrahmanGbr:1234@cluster0.67qbv.mongodb.net/ITShop?retryWrites=true&w=majority
