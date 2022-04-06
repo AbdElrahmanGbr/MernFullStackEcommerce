@@ -9,12 +9,12 @@ import {
     PRODUCT_DETAILS_FAIL,
     CLEAR_ERRORS
 } from "../constants/ProductConstant"
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (currentPage) => async (dispatch) => {
     try {
         dispatch({
             type: ALL_PRODUCTS_REQUEST
         })
-        const { data } = await axios.get("/api/v1/products")
+        const { data } = await axios.get(`/api/v1/products?page= ${currentPage}`)
         dispatch({
             type: ALL_PRODUCTS_SUCCESS,
             payload: data
