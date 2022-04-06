@@ -7,7 +7,6 @@ const products = require('../data/products');
 // Setting dotenv file
 dotenv.config({ path: 'backend/config/config.env' })
 
-
 connectDatabase();
 
 const seedProducts = async () => {
