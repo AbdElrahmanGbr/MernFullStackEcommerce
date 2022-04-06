@@ -1,4 +1,5 @@
 class ApiFeatures {
+
     constructor(query, queryStr) {
         this.query = query;
         this.queryStr = queryStr;
@@ -32,13 +33,12 @@ class ApiFeatures {
         return this;
     }
     pagination(resPerPage) {
-        const page = this.queryStr.page * 1 || 1;
-        const limit = this.queryStr.limit * 1 || 100;
-        const skip = resPerPage *(page - 1);
-        this.query = this.query.skip(skip).limit(limit);
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = resPerPage * (currentPage - 1);
+
+        this.query = this.query.limit(resPerPage).skip(skip);
         return this;
     }
 
 }
 module.exports = ApiFeatures;
-

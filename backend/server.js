@@ -1,15 +1,10 @@
-const app = require("./app");
-const dotenv = require("dotenv");
-const connectDatabase = require("./config/database");
+const app = require('./app');
 
-//setting up Config file
-dotenv.config({ path: "backend/config/config.env" });
+const dotenv = require('dotenv')
 
-//connecting to database
-connectDatabase();
-
-app.listen(process.env.PORT, () => {
-  console.log(
-    `Server Is Running on PORT ${process.env.PORT} in ${process.env.NODE_ENV} mode .`
-  );
-});
+const connectDatabase = require('./config/database')
+dotenv.config({path:'backend/config/config.env'})
+connectDatabase()
+const server = app.listen(process.env.PORT, () =>{
+    console.log(`Server started on Port : ${process.env.PORT} in ${process.env.NODE_ENV} mode.`);
+})
