@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import MetaData from './layout/MetaData'
-
+dispat
 const Home = () => {
     return (
         <Fragment>
