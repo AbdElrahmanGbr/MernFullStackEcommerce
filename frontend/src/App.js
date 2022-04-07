@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
@@ -16,15 +17,25 @@ import ProtectedRoute from "./components/route/ProtectedRoute";
 import { loadUser } from "./actions/userActions";
 import Store from "./Store";
 import { useEffect } from "react";
+=======
+import * as React from 'react';
+
+
+import { Route, Routes } from 'react-router-dom';
+
+import './App.css';
+import Home from './components/Home';
+import Footer from './components/layout/Footer';
+import Header from './components/layout/Header';
+import ProductDetails from './components/product/ProductDetails'
+
+>>>>>>> c7ae7791ace852b9b7e82bd2fd9f77ff4a94ef4b
 
 function App() {
-  useEffect(() => {
-    Store.dispatch(loadUser());
-  }, []);
-
   return (
     <div className="App">
       <Header />
+<<<<<<< HEAD
       <Routes className="container container-fluid">
         <Route path="/" element={<Home />} exact />
         <Route path="/search/:keyword" element={<Home />} />
@@ -47,6 +58,17 @@ function App() {
           element={<ProtectedRoute component={<UpdatePassword />} />}
         />
       </Routes>
+=======
+      <div className='container container-fluid'>
+        <Routes>
+          <Route path='/' element={<Home/>}  />
+          <Route path='/search/:keyword' element={<Home/>} />
+          
+          <Route path="/product/:id" element={<ProductDetails/>} exact />
+
+        </Routes>
+      </div>
+>>>>>>> c7ae7791ace852b9b7e82bd2fd9f77ff4a94ef4b
       <Footer />
     </div>
   );
