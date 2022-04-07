@@ -3,11 +3,6 @@ import {Route, Link} from 'react-router-dom'
 import Search from './Search'
 
 const Header = () => {
-<<<<<<< HEAD
-    const { cartItems } = useSelector(state => state.cart || {})
-
-=======
->>>>>>> c7ae7791ace852b9b7e82bd2fd9f77ff4a94ef4b
     return (
         <Fragment>
             <nav className='navbar row'>

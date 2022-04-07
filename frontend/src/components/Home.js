@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
- const Range = createSliderWithTooltip(Slider.Range)
+const Range = createSliderWithTooltip(Slider.Range);
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
