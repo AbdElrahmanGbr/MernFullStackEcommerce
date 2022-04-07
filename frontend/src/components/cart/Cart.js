@@ -6,7 +6,6 @@ import MetaData from '../layout/MetaData'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart, removeItemFromCart } from '../../actions/cartActions'
-
 const Cart = ({ history }) => {
 
     const dispatch = useDispatch();
