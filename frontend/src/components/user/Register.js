@@ -61,9 +61,9 @@ const Register = ({ history }) => {
         }
       };
 
-      reader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(e.target.files[0]); // read file as data url
     } else {
-      setUser({ ...user, [e.target.name]: e.target.value });
+      setUser({ ...user, [e.target.name]: e.target.value }); // set user state
     }
   };
 
