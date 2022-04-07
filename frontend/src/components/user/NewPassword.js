@@ -14,7 +14,7 @@ const NewPassword = ({ history, match }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { error, success } = useSelector(state => state.forgotPassword)
+    const { error, success } = useSelector(state => state.forgotPassword || {});
 
     useEffect(() => {
 

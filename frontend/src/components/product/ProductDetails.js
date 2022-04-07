@@ -21,9 +21,9 @@ const ProductDetails = ({ match }) => {
     const dispatch = useDispatch();
     const alert = useAlert();
 
-    const { loading, error, product } = useSelector(state => state.productDetails)
-    // const { user } = useSelector(state => state.auth)
-    // const { error: reviewError, success } = useSelector(state => state.newReview)
+    const { loading, error, product } = useSelector(state => state.productDetails || {});
+    const { user } = useSelector(state => state.auth || {});
+    const { error: reviewError, success } = useSelector(state => state.newReview || {});
 
     useEffect(() => {
         dispatch(getProductDetails(match.params.id))

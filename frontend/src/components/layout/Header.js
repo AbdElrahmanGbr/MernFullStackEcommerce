@@ -5,7 +5,7 @@ import '../../App.css'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Header = () => {
-    const { cartItems } = useSelector(state => state.cart)
+    const { cartItems } = useSelector(state => state.cart || {})
 
     return (
         <Fragment>

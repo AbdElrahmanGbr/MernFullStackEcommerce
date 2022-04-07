@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { error, loading, message } = useSelector(state => state.forgotPassword)
+    const { error, loading, message } = useSelector(state => state.forgotPassword || {})
 
     useEffect(() => {
 

@@ -24,7 +24,7 @@ const Register = ({ history }) => {
   const dispatch = useDispatch();
 
   const { isAuthenticated, error, loading } = useSelector(
-    (state) => state.auth
+    (state) => state.auth || {}
   );
 
   useEffect(() => {
