@@ -11,9 +11,9 @@ import { newOrderReducer } from "./reducers/orderReducers";
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
-  auth: authReducer,
-  user: userReducer,
-  cart: cartReducer,
+  // auth: authReducer,
+  // user: userReducer,
+  // cart: cartReducer,
   newOrder: newOrderReducer,
 });
 // let initialState = {

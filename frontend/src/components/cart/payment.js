@@ -4,14 +4,13 @@ import MetaData from "../layout/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
 
 import { useAlert } from "react-alert";
-
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder,clearErrors } from "../../redux/actions/orderActions";
+import { createOrder,clearErrors } from "../../actions/orderActions";
 import { saveShippingInfo } from "../../actions/cartActions";
 import {
   useStripe,
   useElements,
-  CardElement,
   CardExpiryElement,
   CardCvcElement,
   CardNumberElement,
@@ -28,14 +27,14 @@ const options = {
   },
 };
 
-const payment = ({ history }) => {
+const Payment = ({ history }) => {
   const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { cartItems, shipping } = useSelector((state) => state.cart);
+  const { cartItems, shippingInfo } = useSelector((state) => state.cart);
   const {error} = useSelector((state) => state.newOrder);
 
   useEffect(() => {
@@ -46,6 +45,11 @@ const payment = ({ history }) => {
     }
 
 }, [dispatch, alert, error])
+const order = {
+  orderItems: cartItems,
+  shippingInfo,
+};
+
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   if (orderInfo) {
     order.itemsPrice = orderInfo.itemsPrice
@@ -54,17 +58,12 @@ const payment = ({ history }) => {
     order.totalPrice = orderInfo.totalPrice
 }
 
-  const order = {
-    orderItems: cartItems,
-    shippingInfo,
-  };
-
   const paymentData = {
     amount: Math.round(orderInfo.amount * 100),
   };
 
   
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     document.querySelector("#pay_btn").disabled = true;
 
@@ -167,6 +166,6 @@ const payment = ({ history }) => {
   );
 };
 
-payment.propTypes = {};
+Payment.propTypes = {};
 
-export default payment;
+export default Payment;

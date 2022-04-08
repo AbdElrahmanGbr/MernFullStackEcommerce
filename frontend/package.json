@@ -9,6 +9,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "countries-list": "^2.6.1",
     "products": "^3.0.3",
     "rc-slider": "^10.0.0-alpha.6",
     "react": "^17.0.0",

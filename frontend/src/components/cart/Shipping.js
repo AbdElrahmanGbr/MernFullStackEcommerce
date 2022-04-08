@@ -20,7 +20,7 @@ const Shipping = ({ history }) => {
   const dispatch = useDispatch();
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingInfo({ address, city, postalCode, phone, country }));
+    dispatch(saveShippingInfo({ address, city, postalCode, phoneNo, country }));
     history.push("/order/confirm");
   };
 
