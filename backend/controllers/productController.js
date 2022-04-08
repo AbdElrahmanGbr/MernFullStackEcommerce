@@ -41,32 +41,36 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-// Get all products   =>   /api/v1/products?keyword=apple
-exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-
-    const resPerPage = 4;
+// get all products /api/v1/products
+exports.getProducts = async (req, res, next) => {
+    //  return next(new ErrorHandler('my error', 400))
+    
+    const resPerPage = 4; // results per page
     const productsCount = await Product.countDocuments();
 
-    const apiFeatures = new APIFeatures(Product.find(), req.query)
-        .search()
-        .filter()
+    const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter()
 
     let products = await apiFeatures.query;
-    let filteredProductsCount = products.length;
 
-    apiFeatures.pagination(resPerPage)
-    products = await apiFeatures.query;
+    let filteredProductsCount=products.length;
 
+    apiFeatures.pagination(resPerPage);
+
+
+    // products = await apiFeatures.query;
 
     res.status(200).json({
         success: true,
+        count: products.length,
         productsCount,
         resPerPage,
         filteredProductsCount,
         products
-    })
+    });    
 
-})
+
+
+};
 
 // Get all products (Admin)  =>   /api/v1/admin/products
 exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {

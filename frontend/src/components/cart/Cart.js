@@ -2,13 +2,13 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
 import MetaData from '../layout/MetaData'
-
+import { useNavigate } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItemToCart, removeItemFromCart } from '../../actions/cartActions'
 
-const Cart = ({ history }) => {
-
+const Cart = () => {
+    let navigate = useNavigate();
     const dispatch = useDispatch();
 
     const { cartItems } = useSelector(state => state.cart)
@@ -35,9 +35,9 @@ const Cart = ({ history }) => {
 
     }
 
-    // const checkoutHandler = () => {
-    //     history.push('/login?redirect=shipping')
-    // }
+    const checkoutHandler = () => {
+        navigate('/login?redirect=shipping')
+    }
 
     return (
         <Fragment>
@@ -98,7 +98,7 @@ const Cart = ({ history }) => {
                                 <p>Est. total: <span className="order-summary-values">${cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2)}</span></p>
 
                                 <hr />
-                                {/*<button id="checkout_btn" className="btn btn-primary btn-block" onClick={checkoutHandler}>Check out</button>*/}
+                                <button id="checkout_btn" className="btn btn-primary btn-block" onClick={checkoutHandler}>Check out</button>
                                 <button id="checkout_btn" className="btn btn-primary btn-block" >Check out</button>
                             </div>
                         </div>

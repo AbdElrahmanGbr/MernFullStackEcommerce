@@ -9,14 +9,21 @@ import {
     PRODUCT_DETAILS_FAIL,
     CLEAR_ERRORS
 } from "../constants/ProductConstant"
-export const getProducts = (currentPage,keyword) => async (dispatch) => {
+export const getProducts = (keyword= '' ,  currentPage = 1, price ,category, rating = 0) => async (dispatch) => {
     try {
         dispatch({
             type: ALL_PRODUCTS_REQUEST
         })
-        keyword = keyword ? keyword : '';
-        const { data } = await axios.get(`/api/v1/products?page= ${currentPage}&keyword=${keyword}`);
-
+       
+        const { data } = await axios.get( '/api/v1/products',{
+            params: {
+                keyword: keyword,
+                page: currentPage,
+                price: price,
+                category: category,
+                rating: rating
+            
+        }})
         dispatch({
             type: ALL_PRODUCTS_SUCCESS,
             payload: data
