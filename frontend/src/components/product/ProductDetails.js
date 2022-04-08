@@ -1,5 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { Carousel } from 'react-bootstrap'
+import React, { Fragment,useEffect } from 'react'
+import product from './Product'
+import pagination from 'react-js-pagination'
+  
+import {Carousel} from 'react-bootstrap'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
@@ -7,69 +10,31 @@ import MetaData from '../layout/MetaData'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetails,clearErrors } from '../../actions/productActions'
+import { useParams } from 'react-router-dom'
+// import { addItemToCart } from '../../actions/cartActions'
+// import { NEW_REVIEW_RESET } f rom '../../constants/productConstants'
 
-import { getProductDetails, clearErrors } from '../../actions/productActions'
-import { addItemToCart } from '../../actions/cartActions'
-// import { NEW_REVIEW_RESET } from '../../constants/productConstants'
+const ProductDetails = () => {
 
-const ProductDetails = ({ match }) => {
 
-    const [quantity, setQuantity] = useState(1)
-    // const [rating, setRating] = useState(0);
-    const [comment, setComment] = useState('');
-
+   const id= useParams().id;
+   console.log(id);
     const dispatch = useDispatch();
     const alert = useAlert();
 
     const { loading, error, product } = useSelector(state => state.productDetails)
-    // const { user } = useSelector(state => state.auth)
-    // const { error: reviewError, success } = useSelector(state => state.newReview)
+ 
 
     useEffect(() => {
-        dispatch(getProductDetails(match.params.id))
+        dispatch(getProductDetails(id))
 
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
         }
-
-        // if (reviewError) {
-        //     alert.error(reviewError);
-        //     dispatch(clearErrors())
-        // }
-        //
-        // if (success) {
-        //     alert.success('Reivew posted successfully')
-        //     dispatch({ type: NEW_REVIEW_RESET })
-        // }
-
-    }, [dispatch, alert, error, match.params.id])
-
-    const addToCart = () => {
-        dispatch(addItemToCart(match.params.id, quantity));
-        alert.success('Item Added to Cart')
-    }
-
-    const increaseQty = () => {
-        const count = document.querySelector('.count')
-
-        if (count.valueAsNumber >= product.stock) return;
-
-        const qty = count.valueAsNumber + 1;
-        setQuantity(qty)
-    }
-
-    const decreaseQty = () => {
-
-        const count = document.querySelector('.count')
-
-        if (count.valueAsNumber <= 1) return;
-
-        const qty = count.valueAsNumber - 1;
-        setQuantity(qty)
-
-    }
-
+    }, [dispatch,alert,error,id])
+  
 
     return (
         <Fragment>
@@ -79,6 +44,7 @@ const ProductDetails = ({ match }) => {
                     <div className="row d-flex justify-content-around">
                         <div className="col-12 col-lg-5 img-fluid" id="product_image">
                             <Carousel pause='hover'>
+                                {console.log(product.images)}
                                 {product.images && product.images.map(image => (
                                     <Carousel.Item key={image.public_id}>
                                         <img className="d-block w-100" src={image.url} alt={product.title} />
@@ -102,13 +68,13 @@ const ProductDetails = ({ match }) => {
 
                             <p id="product_price">${product.price}</p>
                             <div className="stockCounter d-inline">
-                                <span className="btn btn-danger minus" onClick={decreaseQty}>-</span>
+                                <span className="btn btn-danger minus">-</span>
 
-                                <input type="number" className="form-control count d-inline" value={quantity} readOnly />
+                                <input type="number" className="form-control count d-inline" value="1" readOnly />
 
-                                <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
+                                <span className="btn btn-primary plus" >+</span>
                             </div>
-                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart}>Add to Cart</button>
+                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0}>Add to Cart</button>
 
                             <hr />
 
@@ -121,14 +87,14 @@ const ProductDetails = ({ match }) => {
                             <hr />
                             <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
 
-                            {/*{user ? <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" onClick={setUserRatings}>*/}
-                            {/*        Submit Your Review*/}
-                            {/*    </button>*/}
-                            {/*    :*/}
-                            {/*    <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>*/}
-                            {/*}*/}
+                         <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" >
+                                Submit Your Review
+                            </button>
+                                :
+                                <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>
+                            
 
-
+                                    
                             <div className="row mt-2 mb-5">
                                 <div className="rating w-50">
 
@@ -154,8 +120,7 @@ const ProductDetails = ({ match }) => {
                                                     <textarea
                                                         name="review"
                                                         id="review" className="form-control mt-3"
-                                                        value={comment}
-                                                        onChange={(e) => setComment(e.target.value)}
+                                                        
                                                     >
 
                                                     </textarea>
@@ -171,14 +136,11 @@ const ProductDetails = ({ match }) => {
                         </div>
                     </div>
 
-                    {/*{product.reviews && product.reviews.length > 0 && (*/}
-                    {/*    <ListReviews reviews={product.reviews} />*/}
-                    {/*)}*/}
+                  
 
                 </Fragment>
             )}
         </Fragment>
     )
 }
-
 export default ProductDetails

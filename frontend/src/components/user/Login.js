@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useLocation} from 'react-router-dom'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
@@ -8,7 +8,7 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, clearErrors } from '../../actions/userActions'
 
-const Login = ({ history, location }) => {
+const Login = ({ history }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,13 +17,15 @@ const Login = ({ history, location }) => {
     const dispatch = useDispatch();
 
     const { isAuthenticated, error, loading } = useSelector(state => state.auth);
-
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const location = useLocation();
+    console.log({location})
+    // const redirect = location.search ? location.search.split('=')[1] : '/'
+    
 
     useEffect(() => {
 
         if (isAuthenticated) {
-            history.push(redirect)
+            history.push('/')
         }
 
         if (error) {

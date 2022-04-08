@@ -6,14 +6,16 @@ class ApiFeatures {
     }
 
     search() {
+
         const keyword = this.queryStr.keyword ? {
             name : {
                 $regex: this.queryStr.keyword,  //s operator is used to search for the given string in the specified collection. I
-                $options: 'i'   
+                $options: 'i'   //
             }
             }:{}
             console.log(keyword);
-            this.query= this.query.find({...keyword});
+            console.log({...keyword});
+            this.query= this.query.find({...keyword}); 
             return this;
     }
     filter() {
@@ -25,15 +27,15 @@ class ApiFeatures {
         removeFields.forEach(el => delete queryCopy[el]);
         const queryObj = { ...this.queryStr };
         const excludedFields = ['keyword', 'page', 'limit'];
-        console.log(queryObj);
+        // console.log(queryObj);
         excludedFields.forEach(el => delete queryObj[el]);
         // this.query = this.query.find(queryObj);
-        console.log(queryObj);
+        // console.log(queryObj);
 
         //1B) Advanced filtering
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-        console.log(queryStr);
+        // console.log(queryStr);
         this.query = this.query.find(JSON.parse(queryStr));
 
         return this;
