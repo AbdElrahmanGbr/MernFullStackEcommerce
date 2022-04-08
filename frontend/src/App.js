@@ -10,6 +10,7 @@ import ProductDetails from "./components/product/ProductDetails";
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
+import payment from "./components/cart/payment";
 
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
@@ -18,6 +19,10 @@ import ProtectedRoute from "./components/route/ProtectedRoute";
 import { loadUser } from "./actions/userActions";
 import Store from "./Store";
 import axios from "axios";
+
+//payment
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -44,6 +49,11 @@ function App() {
         <Route path="/cart" element={Cart} exact />
         <ProtectedRoute path="/shipping" element={Shipping} exact />
         <ProtectedRoute path="/order/confirm" element={ConfirmOrder} exact />
+        {stripeApiKey && (
+          <Elements stripe={loadStripe(stripeApiKey)}>
+            <ProtectedRoute path="/payment" element={payment} />
+          </Elements>
+        )}
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
