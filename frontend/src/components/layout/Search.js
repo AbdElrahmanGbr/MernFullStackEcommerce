@@ -1,51 +1,46 @@
-import React , {useState} from 'react'
-// import { useHistory } from "react-router-dom";
-import { useNavigate,NavLink } from 'react-router-dom';
-
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getProducts } from '../../actions/productActions';
+// import { getProducts } from "../actions/productActions";
 
 const Search = () => {
-    // const history = useHistory();
-    
-    const navigation = useNavigate();
-    
-    const [keyword, setKeyWord]= useState('')
+
+    const [keyword, setKeyword] = useState('');
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
     const searchHandler = (e) => {
+        e.preventDefault()
 
-        e.preventDefault();
-        
-        console.log(keyword);
-        if(keyword.trim()){
-            console.log(keyword);
-            navigation(`/search/${keyword}`)
+        if (keyword.trim()) {
+
+            dispatch(getProducts(1, keyword));
+            navigate(`/search/${keyword}`);
+            setKeyword('');
         } else {
-            navigation(`/`)
+            navigate('/')
         }
-
     }
 
-console.log(keyword);
-  return (
-   <>
-   
-      <div className='input-group'>
-                        <input type="text" id="search_field"
-                            className='form-control'
-                            placeholder='Enter Product Name ...'
-                            value={keyword}
-                            onChange={(e) => setKeyWord(e.target.value)}
-                        />
-                        <div className='input-group-append'>
-                            <NavLink onClick={searchHandler} to={`/search/${keyword}`} className='btn btn-primary' id='search_btn'>
-                                  <i className='fa fa-search' aria-hidden="true"></i></NavLink>
-                            {/* <button type='submit' id="search_btn" className='btn'>
-                                <i className='fa fa-search' aria-hidden="true"></i>
-                            </button > */}
-                        </div>
-                    </div>
-                   
-
-</>
-  )
+    return (
+        <form onSubmit={searchHandler} >
+            <div className="input-group">
+                <input
+                    type="text"
+                    id="search_field"
+                    className="form-control"
+                    placeholder="Enter Product Name ..."
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                />
+                <div className="input-group-append">
+                    <button id="search_btn" className="btn">
+                        <i className="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    )
 }
 
 export default Search

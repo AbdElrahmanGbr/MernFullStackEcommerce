@@ -8,22 +8,26 @@ import { getProducts } from "../actions/productActions";
 import Loader from "./layout/Loader";
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
+import { useParams } from 'react-router-dom'
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { products, loading, error, productsCount, resPerPage } = useSelector(
+  const { products, loading, error, productsCount, resPerPage , filteredProductsCount } = useSelector(
     (state) => state.products
   );
+  const { keyword } = useParams()
+
 
   useEffect(() => {
     if (error) {
       // alert.success("seccess");
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage));
-  }, [dispatch, alert, error, currentPage]);
+ 
+    dispatch(getProducts(currentPage,keyword ? keyword : ''));
+  }, [dispatch, alert, error, currentPage,keyword]);
 
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
@@ -49,7 +53,7 @@ const Home = () => {
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resPerPage}
-                totalItemsCount={productsCount}
+                totalItemsCount={filteredProductsCount}
                 onChange={setCurrentPageNo}
                 nextPageText={"Next"}
                 prevPageText={"Prev"}
