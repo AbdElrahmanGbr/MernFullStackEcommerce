@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
 
 import MetaData from "../layout/MetaData";
-
+import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { register, clearErrors } from "../../actions/userActions";
-
-const Register = ({ history }) => {
+const Register = () => {
+  let navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -29,14 +29,14 @@ const Register = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      navigate("/");
     }
 
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, isAuthenticated, error, history]);
+  }, [dispatch, alert, isAuthenticated, error,navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
