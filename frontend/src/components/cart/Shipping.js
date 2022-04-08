@@ -2,8 +2,8 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { countryies } from "countries-list";
 import MetaData from "../layout/MetaData";
+import CheckoutSteps from "./CheckoutSteps";
 
-import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingInfo } from "../../actions/cartActions";
 const Shipping = ({ history }) => {
