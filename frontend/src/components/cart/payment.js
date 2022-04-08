@@ -6,6 +6,7 @@ import CheckoutSteps from "./CheckoutSteps";
 import { useAlert } from "react-alert";
 
 import { useDispatch, useSelector } from "react-redux";
+import { createOrder,clearErrors } from "../../redux/actions/orderActions";
 import { saveShippingInfo } from "../../actions/cartActions";
 import {
   useStripe,
@@ -35,9 +36,23 @@ const payment = ({ history }) => {
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shipping } = useSelector((state) => state.cart);
+  const {error} = useSelector((state) => state.newOrder);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+
+    if (error) {
+        alert.error(error)
+        dispatch(clearErrors())
+    }
+
+}, [dispatch, alert, error])
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
+  if (orderInfo) {
+    order.itemsPrice = orderInfo.itemsPrice
+    order.shippingPrice = orderInfo.shippingPrice
+    order.taxPrice = orderInfo.taxPrice
+    order.totalPrice = orderInfo.totalPrice
+}
 
   const order = {
     orderItems: cartItems,

@@ -5,9 +5,13 @@ import {
   productsReducer,
   productDetailsReducer,
 } from "./reducers/ProductReducer";
+
+import { newOrderReducer } from "./reducers/orderReducers";
+
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
+  newOrder: newOrderReducer,
 });
 let initialState = {
   cart: {
