@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { countryies } from "countries-list";
 import MetaData from "../layout/MetaData";
 import CheckoutSteps from "./CheckoutSteps";
@@ -21,7 +21,7 @@ const Shipping = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingInfo({ address, city, postalCode, phone, country }));
-    history.pushState("/confirm");
+    history.push("/order/confirm");
   };
 
   return (

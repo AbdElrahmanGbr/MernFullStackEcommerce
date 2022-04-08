@@ -1,11 +1,15 @@
+import { useEffect, useState } from "react";
+
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import ProductDetails from "./components/product/ProductDetails";
+
 import Cart from "./components/cart/Cart";
 import Shipping from "./components/cart/Shipping";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
 
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
@@ -13,11 +17,20 @@ import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import { loadUser } from "./actions/userActions";
 import Store from "./Store";
-import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
   useEffect(() => {
     Store.dispatch(loadUser());
+    async function getStripeApiKey() {
+      const { data } = await axios.get("/api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+
+      // console.log(data.stripeApiKey);
+      getStripeApiKey();
+    }
   }, []);
 
   return (
@@ -30,6 +43,7 @@ function App() {
 
         <Route path="/cart" element={Cart} exact />
         <ProtectedRoute path="/shipping" element={Shipping} exact />
+        <ProtectedRoute path="/order/confirm" element={ConfirmOrder} exact />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
