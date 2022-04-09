@@ -14,7 +14,9 @@ export const getProducts = (keyword= '' ,  currentPage = 1, price ,category, rat
         dispatch({
             type: ALL_PRODUCTS_REQUEST
         })
+       console.log({category});
        
+
         const { data } = await axios.get( '/api/v1/products',{
             params: {
                 keyword: keyword,

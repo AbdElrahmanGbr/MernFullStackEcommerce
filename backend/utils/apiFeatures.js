@@ -8,15 +8,15 @@ class ApiFeatures {
     search() {
 
         const keyword = this.queryStr.keyword ? {
-            name : {
+            name: {
                 $regex: this.queryStr.keyword,  //s operator is used to search for the given string in the specified collection. I
                 $options: 'i'   //
             }
-            }:{}
-            console.log(keyword);
-            console.log({...keyword});
-            this.query= this.query.find({...keyword}); 
-            return this;
+        } : {}
+        console.log(keyword);
+        console.log({ ...keyword });
+        this.query = this.query.find({ ...keyword });
+        return this;
     }
     filter() {
 
@@ -35,8 +35,20 @@ class ApiFeatures {
         //1B) Advanced filtering
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-        // console.log(queryStr);
-        this.query = this.query.find(JSON.parse(queryStr));
+        const range = JSON.parse(queryStr)['price']
+        console.log(JSON.parse(queryStr))
+        console.log(range);
+        const fullQuery = { price: { $gte: range[0], $lte: range[1] }}
+        const category = JSON.parse(queryStr)['category']
+        const rating = parseInt(JSON.parse(queryStr)['rating'])
+        if(category != '') {
+            fullQuery['category'] = category;
+        }
+        if(rating != 0) {
+            fullQuery['ratings'] = rating ;
+        }
+        console.log({fullQuery})
+        this.query = this.query.find(fullQuery);
 
         return this;
     }

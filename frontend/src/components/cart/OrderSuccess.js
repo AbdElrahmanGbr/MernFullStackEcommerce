@@ -1,8 +1,11 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 
 const OrderSuccess = () => {
+
+
   return (
     <Fragment>
       <MetaData title={"Order Success"} />
