@@ -27,7 +27,7 @@ const Header = () => {
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
                         <Link to="/">
-                        <img src="https://static.vecteezy.com/system/resources/previews/000/606/924/original/icon-shop-online-business-icon-flat-design-vector.jpg" style={{ width: "60px", height: "60px", borderRadius: "50%" }} />
+                            <img src="https://static.vecteezy.com/system/resources/previews/000/606/924/original/icon-shop-online-business-icon-flat-design-vector.jpg" style={{ width: "60px", height: "60px", borderRadius: "50%" }} />
                         </Link>
                     </div>
                 </div>

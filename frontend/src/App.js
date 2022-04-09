@@ -49,7 +49,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} exact />
         <Route path="/cart" element={<Cart />} />
 
-
+        <Route path="/cart" element={Cart} exact />
         <Route
           path="/shipping"
           element={
@@ -75,11 +75,11 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* {stripeApiKey && (
+        {stripeApiKey && (
           <Route stripe={loadStripe(stripeApiKey)}>
-            <ProtectedRoute path="/payment" element={payment} />
+            <ProtectedRoute path="/payment" element={Payment} />
           </Route>
-        )} */}
+        )}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/me" element={<Profile />} />
@@ -106,6 +106,9 @@ function App() {
           </Elements>
         } */}
 
+        <Route path="/me" element={<Route />}>
+          <Route excat path="/me/profile" element={<Profile />} />
+        </Route>
       </Routes>
       <Footer />
     </div>
@@ -117,10 +120,10 @@ export default App;
 
 const ProtectedRoute = ({ user, children }) => {
   // const location = useLocation();
- 
+
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
- return children
+  return children
 };
