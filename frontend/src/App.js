@@ -46,7 +46,7 @@ function App() {
         <Route path="/" element={<Home />} exact />
         <Route path="/search/:keyword" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} exact />
-        <Route path="/cart" element={<Cart />}  />
+        <Route path="/cart" element={<Cart />} />
 
 
         <Route
@@ -58,7 +58,7 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path="/order/confirm"
           element={
             <ProtectedRoute >
@@ -66,7 +66,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-<Route
+        <Route
           path="/success"
           element={
             <ProtectedRoute >
@@ -74,20 +74,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-     
-    
         {/* {stripeApiKey && (
           <Route stripe={loadStripe(stripeApiKey)}>
             <ProtectedRoute path="/payment" element={payment} />
           </Route>
         )} */}
-
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        <Route path="/me" element={<ProtectedRoute />}>
-          <Route excat path="/me/profile" element={<Profile />} />
-        </Route>
+        <Route path="/me" element={<Profile />} />
       </Routes>
       <Footer />
     </div>
