@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 
 import Pagination from "react-js-pagination";
 import Range from "rc-slider";
+import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 import MetaData from "./layout/MetaData";
@@ -47,7 +48,7 @@ const Home = () => {
 
   const keyword = useParams().keyword;
   // const category = useParams().category;
- 
+
   useEffect(() => {
     if (error) {
       // alert.success("seccess");
@@ -81,8 +82,7 @@ const Home = () => {
                 <Fragment>
                   <div className="col-6 col-md-3 mt-5 mb-5">
                     <div className="px-5">
-                      {/* <Slider /> */}
-                      <Range
+                      <Slider
                         marks={{
                           1: `$1`,
                           1000: `$1000`,
@@ -94,9 +94,13 @@ const Home = () => {
                           placement: "top",
                           visible: true,
                         }}
-                        value={price}
-                        onChange={(price) => setPrice(price)}
+                        value={price[1]}
+                        onChange={(p) => {
+                          setPrice(old => [1,p])
+                          // setPrice(p)
+                        }}
                       />
+                    
 
                       <hr className="my-5" />
 
@@ -167,7 +171,7 @@ const Home = () => {
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resPerPage}
-                totalItemsCount={productsCount}
+                totalItemsCount={filteredProductsCount}
                 onChange={setCurrentPageNo}
                 nextPageText={"Next"}
                 prevPageText={"Prev"}
