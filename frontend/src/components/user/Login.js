@@ -3,12 +3,13 @@ import { Link , useLocation} from 'react-router-dom'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
-
+import { useNavigate } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, clearErrors } from '../../actions/userActions'
 
-const Login = ({ history }) => {
+const Login = () => {
+    let navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,16 +17,16 @@ const Login = ({ history }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
-    const location = useLocation();
-    console.log({location})
-    // const redirect = location.search ? location.search.split('=')[1] : '/'
+    const { isAuthenticated, error, loading } = useSelector(state => state.auth || []);
+    // const location = useLocation();
+    // console.log({location})
+    // const redirect = location.pathname ? location.search.split('=')[1] : '/'
     
 
     useEffect(() => {
 
         if (isAuthenticated) {
-            history.push('/')
+            navigate('/')
         }
 
         if (error) {
@@ -33,7 +34,7 @@ const Login = ({ history }) => {
             dispatch(clearErrors());
         }
 
-    }, [dispatch, alert, isAuthenticated, error, history])
+    }, [dispatch, alert, isAuthenticated, error, navigate]);
 
     const submitHandler = (e) => {
         e.preventDefault();

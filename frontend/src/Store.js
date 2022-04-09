@@ -5,15 +5,16 @@ import {
   productsReducer,
   productDetailsReducer,
 } from "./reducers/ProductReducer";
-
+import { authReducer, userReducer } from "./reducers/userReducer";
+// import { cartReducer } from "./reducers/cartReducer";
 import { newOrderReducer } from "./reducers/orderReducers";
 import { cartReducer } from "./reducers/cartReducers";
 
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
-  // auth: authReducer,
-  // user: userReducer,
+  auth: authReducer,
+  user: userReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
 });
@@ -30,7 +31,6 @@ let initialState = {
 const middleware = [thunk];
 const store = createStore(
   reducer,
-  // initialState,
   composeWithDevTools(applyMiddleware(...middleware))
 );
 export default store;

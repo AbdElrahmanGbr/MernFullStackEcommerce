@@ -8,11 +8,12 @@
     "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/server",
     "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/server",
     "seeder": "node backend/utils/seeder.js",
-    "heroku-postbuild" : "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Gbr",
   "license": "ISC",
   "dependencies": {
+    "@stripe/stripe-js": "^1.27.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.23.0",
@@ -28,6 +29,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
-
   }
 }
