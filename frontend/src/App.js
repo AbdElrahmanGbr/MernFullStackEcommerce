@@ -16,7 +16,7 @@ import OrderSuccess from "./components/cart/OrderSuccess";
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
 import Profile from "./components/user/Profile";
-import ProtectedRoute from "./components/route/ProtectedRoute";
+// import Route from "./components/route/ProtectedRoute";
 import { loadUser } from "./actions/userActions";
 import Store from "./Store";
 import axios from "axios";
@@ -48,19 +48,19 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />} exact />
 
         <Route path="/cart" element={Cart} exact />
-        <ProtectedRoute path="/shipping" element={Shipping} exact />
-        <ProtectedRoute path="/order/confirm" element={ConfirmOrder} exact />
-        <ProtectedRoute path="/success" element={OrderSuccess} exact />
+        <Route path="/shipping" element={Shipping} exact />
+        <Route path="/order/confirm" element={ConfirmOrder} exact />
+        <Route path="/success" element={OrderSuccess} exact />
         {stripeApiKey && (
           <Elements stripe={loadStripe(stripeApiKey)}>
-            <ProtectedRoute path="/payment" element={payment} />
+            <Route path="/payment" element={payment} />
           </Elements>
         )}
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/me" element={<ProtectedRoute />}>
+        <Route path="/me" element={<Route />}>
           <Route excat path="/me/profile" element={<Profile />} />
         </Route>
       </Routes>

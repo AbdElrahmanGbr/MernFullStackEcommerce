@@ -1,8 +1,8 @@
-import React, { Fragment,useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import product from './Product'
 import pagination from 'react-js-pagination'
-  
-import {Carousel} from 'react-bootstrap'
+
+import { Carousel } from 'react-bootstrap'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
@@ -10,21 +10,21 @@ import MetaData from '../layout/MetaData'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductDetails,clearErrors } from '../../actions/productActions'
+import { getProductDetails, clearErrors } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
-// import { addItemToCart } from '../../actions/cartActions'
+import { addItemToCart } from '../../actions/cartActions'
 // import { NEW_REVIEW_RESET } f rom '../../constants/productConstants'
 
-const ProductDetails = () => {
+const ProductDetails = ({ match }) => {
 
-
-   const id= useParams().id;
-   console.log(id);
+    const [quantity, setQuantity] = useState(1);
+    const id = useParams().id;
+    console.log(id);
     const dispatch = useDispatch();
     const alert = useAlert();
 
     const { loading, error, product } = useSelector(state => state.productDetails)
- 
+
 
     useEffect(() => {
         dispatch(getProductDetails(id))
@@ -33,8 +33,30 @@ const ProductDetails = () => {
             alert.error(error);
             dispatch(clearErrors())
         }
-    }, [dispatch,alert,error,id])
-  
+    }, [dispatch, alert, error, id])
+
+
+    const increaseQty = () => {
+        const count = document.querySelector(".count");
+        if (count.valueAsNumber >= product.stock) {
+            return;
+        }
+        const qty = count.valueAsNumber + 1;
+        setQuantity(qty);
+
+    }
+    const decreaseQty = () => {
+        const count = document.querySelector(".count");
+        if (count.valueAsNumber <= 1) {
+            return;
+        }
+        const qty = count.valueAsNumber - 1;
+        setQuantity(qty);
+    }
+    const addToCart = () => {
+        dispatch(addItemToCart(match.params.id, quantity));
+        alert.success("Item added to cart");
+    }
 
     return (
         <Fragment>
@@ -68,13 +90,13 @@ const ProductDetails = () => {
 
                             <p id="product_price">${product.price}</p>
                             <div className="stockCounter d-inline">
-                                <span className="btn btn-danger minus">-</span>
+                                <span className="btn btn-danger minus" onClick={decreaseQty} >-</span>
 
-                                <input type="number" className="form-control count d-inline" value="1" readOnly />
+                                <input type="number" className="form-control count d-inline" value={quantity} readOnly />
 
-                                <span className="btn btn-primary plus" >+</span>
+                                <span className="btn btn-primary plus" onClick={increaseQty} >+</span>
                             </div>
-                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0}>Add to Cart</button>
+                            <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart}>Add to Cart</button>
 
                             <hr />
 
@@ -87,14 +109,14 @@ const ProductDetails = () => {
                             <hr />
                             <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
 
-                         <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" >
+                            <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" >
                                 Submit Your Review
                             </button>
-                                :
-                                <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>
-                            
+                            :
+                            <div className="alert alert-danger mt-5" type='alert'>Login to post your review.</div>
 
-                                    
+
+
                             <div className="row mt-2 mb-5">
                                 <div className="rating w-50">
 
@@ -120,7 +142,7 @@ const ProductDetails = () => {
                                                     <textarea
                                                         name="review"
                                                         id="review" className="form-control mt-3"
-                                                        
+
                                                     >
 
                                                     </textarea>
@@ -136,11 +158,12 @@ const ProductDetails = () => {
                         </div>
                     </div>
 
-                  
+
 
                 </Fragment>
-            )}
-        </Fragment>
+            )
+            }
+        </Fragment >
     )
 }
 export default ProductDetails
