@@ -75,7 +75,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // Create reset password url
-    const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
     const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`
 
@@ -107,9 +107,9 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
     // Hash URL token
-    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
+    const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex') // 'sha256' is the algorithm used to hash the token
 
-    const user = await User.findOne({
+    const user = await User.findOne({ // Find user with the token
         resetPasswordToken,
         resetPasswordExpire: { $gt: Date.now() }
     })

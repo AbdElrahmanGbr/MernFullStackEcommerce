@@ -14,7 +14,7 @@ const NewPassword = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { error, success } = useSelector(state => state.forgotPassword);
+    const { error, success } = useSelector(state => state.forgotPassword || []);
     let navigate = useNavigate();
     let { token } = useParams();
     useEffect(() => {
@@ -39,6 +39,7 @@ const NewPassword = () => {
         formData.set('confirmPassword', confirmPassword);
 
         dispatch(resetPassword(token, formData))
+        console.log(token)
     }
 
     return (
