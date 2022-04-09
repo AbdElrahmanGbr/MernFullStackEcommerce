@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react'
 
 import MetaData from '../layout/MetaData'
-
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateProfile, loadUser, clearErrors } from '../../actions/userActions'
 import { UPDATE_PROFILE_RESET } from '../../constants/userConstants'
+import { useNavigate } from 'react-router-dom'
 
-const UpdateProfile = ({ history }) => {
+const UpdateProfile = () => {
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -17,11 +17,11 @@ const UpdateProfile = ({ history }) => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { user } = useSelector(state => state.auth || {});
-    const { error, isUpdated, loading } = useSelector(state => state.user || {});
+    const { user } = useSelector(state => state.auth);
+    const { error, isUpdated, loading } = useSelector(state => state.user);
 
+    let navigate = useNavigate();
     useEffect(() => {
-
         if (user) {
             setName(user.name);
             setEmail(user.email);
@@ -37,14 +37,14 @@ const UpdateProfile = ({ history }) => {
             alert.success('User updated successfully')
             dispatch(loadUser());
 
-            history.push('/me')
+            navigate('/me')
 
             dispatch({
                 type: UPDATE_PROFILE_RESET
             })
         }
 
-    }, [dispatch, alert, error, history, isUpdated])
+    }, [dispatch, alert, error, isUpdated, user, navigate])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -126,7 +126,7 @@ const UpdateProfile = ({ history }) => {
                                     />
                                     <label className='custom-file-label' htmlFor='customFile'>
                                         Choose Avatar
-                                </label>
+                                    </label>
                                 </div>
                             </div>
                         </div>

@@ -16,7 +16,7 @@ import OrderSuccess from "./components/cart/OrderSuccess";
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
 import Profile from "./components/user/Profile";
-
+import UpdateProfile from "./components/user/UpdateProfile";
 import { loadUser } from "./actions/userActions";
 import Store from "./Store";
 import axios from "axios";
@@ -71,6 +71,14 @@ function App() {
           element={
             <ProtectedRoute >
               <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/me/update"
+          element={
+            <ProtectedRoute >
+              <UpdateProfile />
             </ProtectedRoute>
           }
         />
