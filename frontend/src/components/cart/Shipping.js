@@ -6,10 +6,15 @@ import CheckoutSteps from "./CheckoutSteps";
 
 import { useDispatch, useSelector } from "react-redux";
 import { saveShippingInfo } from "../../actions/cartActions";
-const Shipping = ({ history }) => {
-  const { ShippingInfo } = useSelector((state) => state.cart);
+import { useNavigate } from "react-router-dom";
+const Shipping = () => {
+  let navigate = useNavigate();
 
-  const countriesList = Object.value(countryies);
+  const { ShippingInfo } = useSelector((state) => state.cart || {});
+
+  // const countriesList = Object.values(countryies).map(function (values) {
+  //   return countryies[values];
+  // });
 
   const [address, setAddress] = useState(ShippingInfo.address);
   const [city, setCity] = useState(ShippingInfo.city);
@@ -21,7 +26,7 @@ const Shipping = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingInfo({ address, city, postalCode, phoneNo, country }));
-    history.push("/order/confirm");
+    navigate("/order/confirm");
   };
 
   return (
@@ -91,11 +96,11 @@ const Shipping = ({ history }) => {
                 onChange={(e) => setCountry(e.target.value)}
                 required
               >
-                {countriesList.map((country) => (
+                {/*countriesList.map((country) => (
                   <option key={country.name} value={country.name}>
                     {country.name}
                   </option>
-                ))}
+                ))*/}
               </select>
             </div>
 

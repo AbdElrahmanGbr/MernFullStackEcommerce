@@ -48,8 +48,6 @@ function App() {
         <Route path="/search/:keyword" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} exact />
         <Route path="/cart" element={<Cart />} />
-
-        <Route path="/cart" element={Cart} exact />
         <Route
           path="/shipping"
           element={

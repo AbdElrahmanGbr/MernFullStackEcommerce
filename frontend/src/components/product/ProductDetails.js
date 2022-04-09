@@ -14,9 +14,8 @@ import { getProductDetails, clearErrors } from '../../actions/productActions'
 import { useParams } from 'react-router-dom'
 import { addItemToCart } from '../../actions/cartActions'
 // import { NEW_REVIEW_RESET } f rom '../../constants/productConstants'
-
-const ProductDetails = ({ match }) => {
-
+const ProductDetails = () => {
+    let params = useParams();
     const [quantity, setQuantity] = useState(1);
     const id = useParams().id;
     console.log(id);
@@ -54,7 +53,7 @@ const ProductDetails = ({ match }) => {
         setQuantity(qty);
     }
     const addToCart = () => {
-        dispatch(addItemToCart(match.params.id, quantity));
+        dispatch(addItemToCart(params.id, quantity));
         alert.success("Item added to cart");
     }
 

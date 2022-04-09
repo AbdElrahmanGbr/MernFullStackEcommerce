@@ -6,7 +6,7 @@ import CheckoutSteps from "./CheckoutSteps";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder,clearErrors } from "../../actions/orderActions";
+import { createOrder, clearErrors } from "../../actions/orderActions";
 import { saveShippingInfo } from "../../actions/cartActions";
 import {
   useStripe,
@@ -34,20 +34,20 @@ const Payment = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
-  const {error} = useSelector((state) => state.newOrder);
+  const { error } = useSelector((state) => state.newOrder);
 
   useEffect(() => {
 
     if (error) {
-        alert.error(error)
-        dispatch(clearErrors())
+      alert.error(error)
+      dispatch(clearErrors())
     }
 
-}, [dispatch, alert, error])
-const order = {
-  orderItems: cartItems,
-  shippingInfo,
-};
+  }, [dispatch, alert, error])
+  const order = {
+    orderItems: cartItems,
+    shippingInfo,
+  };
 
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
   if (orderInfo) {
@@ -55,13 +55,13 @@ const order = {
     order.shippingPrice = orderInfo.shippingPrice
     order.taxPrice = orderInfo.taxPrice
     order.totalPrice = orderInfo.totalPrice
-}
+  }
 
   const paymentData = {
     amount: Math.round(orderInfo.amount * 100),
   };
 
-  
+
   const SubmitHandler = async (e) => {
     let navigate = useNavigate();
     e.preventDefault();
@@ -74,40 +74,40 @@ const order = {
           "Content-Type": "application/json",
         },
       };
-        res = await axios.post("/api/v1/payment/process", paymentData, config);
-        const clientsecret = res.data.clientSecret;
-        // console.log(clientSecret);
-        if(!stripe || !elements) {
-          return;
-        }
-        const result = await stripe.confirmCardPayment(clientsecret, {
-            payment_method: {
-                card: elements.getElement(CardNumberElement),
-                billing_details: {
-                    name: user.name,
-                    email: user.email,
-                },
-            },
-        });
-        if(result.error) {
-            console.log(result.error.message);
-            document.querySelector("#pay_btn").disabled = false;
-            alert.show("Payment failed, please try again");
-        }else{
+      res = await axios.post("/api/v1/payment/process", paymentData, config);
+      const clientsecret = res.data.clientSecret;
+      // console.log(clientSecret);
+      if (!stripe || !elements) {
+        return;
+      }
+      const result = await stripe.confirmCardPayment(clientsecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          billing_details: {
+            name: user.name,
+            email: user.email,
+          },
+        },
+      });
+      if (result.error) {
+        console.log(result.error.message);
+        document.querySelector("#pay_btn").disabled = false;
+        alert.show("Payment failed, please try again");
+      } else {
 
-            // The payment is processed or not
-            if(result.paymentIntent.status==="succeeded"){
-                order.paymentInfo={
-                    id: result.paymentIntent.id,
-                    status: result.paymentIntent.status,
-                }
-                dispatch(createOrder(order));
-                navigate("/success");
-            }else{
-                document.querySelector("#pay_btn").disabled = false;
-                alert.show("Payment failed, please try again");
-            }
+        // The payment is processed or not
+        if (result.paymentIntent.status === "succeeded") {
+          order.paymentInfo = {
+            id: result.paymentIntent.id,
+            status: result.paymentIntent.status,
+          }
+          dispatch(createOrder(order));
+          navigate("/success");
+        } else {
+          document.querySelector("#pay_btn").disabled = false;
+          alert.show("Payment failed, please try again");
         }
+      }
 
     } catch (error) {
       document.querySelector("#pay_btn").disabled = false;
