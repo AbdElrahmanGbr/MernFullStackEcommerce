@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import Footer from "./components/layout/Footer";
@@ -26,6 +26,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
+import UpdatePassword from "./components/user/UpdatePassword";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -74,14 +75,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/me/update"
-          element={
-            <ProtectedRoute >
-              <UpdateProfile />
-            </ProtectedRoute>
-          }
-        />
         {/* {stripeApiKey && (
           <Route stripe={loadStripe(stripeApiKey)}>
             <ProtectedRoute path="/payment" element={payment} />
@@ -90,6 +83,29 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/me" element={<Profile />} />
+        <Route
+          path="/me/update"
+          element={
+            <ProtectedRoute >
+              <UpdateProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/password/update"
+          element={
+            <ProtectedRoute >
+              <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* {stripeApiKey &&
+          <Elements stripe={loadStripe(stripeApiKey)}>
+            <Route path="/payment" element={<ProtectedRoute ><Payment /></ProtectedRoute>} />
+          </Elements>
+        } */}
+
       </Routes>
       <Footer />
     </div>
@@ -100,9 +116,11 @@ export default App;
 
 
 const ProtectedRoute = ({ user, children }) => {
-  if (!user) {
+  // const location = useLocation();
+ 
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-
-  return children;
+ return children
 };

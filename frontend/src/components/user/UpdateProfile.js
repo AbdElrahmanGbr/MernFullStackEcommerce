@@ -44,7 +44,7 @@ const UpdateProfile = () => {
             })
         }
 
-    }, [dispatch, alert, error, isUpdated, user, navigate])
+    }, [dispatch, alert, error, isUpdated, user])
 
     const submitHandler = (e) => {
         e.preventDefault();
