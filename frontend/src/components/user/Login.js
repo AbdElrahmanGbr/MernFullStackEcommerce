@@ -18,9 +18,9 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const { isAuthenticated, error, loading } = useSelector(state => state.auth || []);
-    const location = useLocation();
-    console.log({location})
-    // const redirect = location.search ? location.search.split('=')[1] : '/'
+    // const location = useLocation();
+    // console.log({location})
+    // const redirect = location.pathname ? location.search.split('=')[1] : '/'
     
 
     useEffect(() => {
