@@ -27,6 +27,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import ConfirmOrder from "./components/cart/ConfirmOrder";
 import UpdatePassword from "./components/user/UpdatePassword";
+import ForgotPassword from "./components/user/ForgotPassword";
+import NewPassword from "./components/user/NewPassword";
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -82,6 +84,8 @@ function App() {
         )} */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/password/forgot" element={<ForgotPassword />} />
+        <Route path="/password/reset/:token" element={<NewPassword />} />
         <Route path="/me" element={<Profile />} />
         <Route
           path="/me/update"
@@ -117,10 +121,10 @@ export default App;
 
 const ProtectedRoute = ({ user, children }) => {
   // const location = useLocation();
- 
+
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
- return children
+  return children
 };
